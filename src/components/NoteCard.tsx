@@ -10,16 +10,16 @@ interface NoteCardProps {
 export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
   const formatDate = (dateString: string) => {
     try {
-      return new Date(dateString).toLocaleDateString("fa-IR", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+      const date = new Date(dateString);
+      const day = date.toLocaleDateString("fa-IR", { day: "numeric" });
+      const month = date.toLocaleDateString("fa-IR", { month: "long" });
+      const year = date.toLocaleDateString("fa-IR", { year: "numeric" });
+
+      return `${day}\u200F ${month}\u200F ${year}`;
     } catch {
       return "";
     }
   };
-
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-200">
       <div>
@@ -32,7 +32,7 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
       </div>
 
       <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60 text-xs text-slate-400">
-        <span>{formatDate(note.createdAt)}</span>
+        <span dir="rtl">{formatDate(note.createdAt)}</span>
 
         <div className="flex items-center gap-1">
           <button
